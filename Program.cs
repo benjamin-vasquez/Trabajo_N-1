@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel.Design;
+using System.Globalization;
 
 namespace Trabajo_N_1
 {
@@ -27,6 +28,14 @@ namespace Trabajo_N_1
               double montoIva = CalcularIvaChileno(netoConDescuento);
               double totalCotizacion = netoConDescuento + montoIva;
 
+            // Evaluar la viabilidad económica
+            bool esViable = EvaluarViabilidadEconomica(totalCotizacion, presupuestoMax);
+
+            // Presentación visual del presupuesto
+            MostrarDetalleCotizacion(nombrePyme, comuna, cantPaneles, subtotalNeto, montoDescuento, netoConDescuento, montoIva, totalCotizacion, esViable, presupuestoMax);
+
+            Console.WriteLine("\nPresione cualquier tecla para salir...");
+            Console.ReadKey();
 
 
         }
@@ -44,7 +53,7 @@ namespace Trabajo_N_1
             while (entrada == "")
             {
                 Console.Write(prompt);
-                entrada = Console.ReadLine();
+                entrada = Console.ReadLine()?.Trim() ?? "";
                 if (entrada == "")
                 {
                     Console.WriteLine("El campo no puede estar vacio.");
@@ -105,6 +114,48 @@ namespace Trabajo_N_1
         {
             double ivaChileno = (netoAfecto * 19)/100 ;
             return ivaChileno ;
+        }
+
+        static bool EvaluarViabilidadEconomica(double total, double presupuestoPyme)
+        {
+            double presupuestoPyme10 = presupuestoPyme+((presupuestoPyme*10)/100) ;
+            if (total <= presupuestoPyme || total <= presupuestoPyme10)
+            {
+                return true ;
+            }
+            else 
+            {
+                return false ;
+            }
+        }
+        static void MostrarDetalleCotizacion(string nPyme, string lugar, int cantidadPaneles, double subNeto, double montDescuento, double netConDescuento, double montIva, double totalCoti, bool viable, double presuMax) 
+        {
+            string Viable;
+            if (viable = true)
+            {
+                Viable = "Valido";
+            }
+            else 
+            {
+                Viable = "No Valido";
+            }
+            Console.WriteLine("========================================================");
+            Console.WriteLine("             COTIZACIÓN VALIDADA EXITOSAMENTE");
+            Console.WriteLine("========================================================");
+            Console.WriteLine($"Cliente:               {nPyme}");
+            Console.WriteLine($"Comuna:                {lugar}");
+            Console.WriteLine($"Cuantos paneles:       {cantidadPaneles:F2}");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine($"Subtotal Neto:        {subNeto:F2} USD");
+            Console.WriteLine($"Desc.Fomento:         {montDescuento:F2} USD");
+            Console.WriteLine($"Neto Final:           {netConDescuento:F2} USD");
+            Console.WriteLine($"IVA (19%):            {montIva:F2} USD");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine($"Total Cotizacion:     {totalCoti:F2} USD");
+            Console.WriteLine($"Presupuesto Maximo:   {presuMax:F2} USD");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine($"Viabilidad:           {Viable}");
+            Console.WriteLine("========================================================");
         }
     }
 }
