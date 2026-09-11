@@ -21,11 +21,11 @@ namespace Trabajo_N_1
             double presupuestoMax = SolicitarDecimalValido("Presupuesto mensual límite de la PYME en USD (500.0 a 100000.0): ", 500.0, 100000.0);
 
             // Lógica de cálculo modular
-            /*  double subtotalNeto = CalcularSubtotal(cantPaneles, tarifaPanel, costoInversor);
+              double subtotalNeto = CalcularSubtotal(cantPaneles, tarifaPanel, costoInversor);
               double montoDescuento = CalcularDescuentoFomento(subtotalNeto, dctoFomento);
               double netoConDescuento = subtotalNeto - montoDescuento;
               double montoIva = CalcularIvaChileno(netoConDescuento);
-              double totalCotizacion = netoConDescuento + montoIva;*/
+              double totalCotizacion = netoConDescuento + montoIva;
 
 
 
@@ -89,6 +89,22 @@ namespace Trabajo_N_1
             } while (!tarifaValida || tarifa < min || tarifa > max);
 
             return tarifa;
+        }
+        static double CalcularSubtotal(int paneles, double precioPanel, double inversores) 
+        {
+            double precioPaneles = paneles * precioPanel ;
+            double subTotal = precioPanel + inversores ;
+            return subTotal ;
+        }
+        static double CalcularDescuentoFomento(double bruto, double dcto) 
+        {
+            double descuentoFomento = (dcto * bruto)/100 ;
+            return descuentoFomento ;
+        }
+        static double CalcularIvaChileno(double netoAfecto) 
+        {
+            double ivaChileno = (netoAfecto * 19)/100 ;
+            return ivaChileno ;
         }
     }
 }
