@@ -1,4 +1,6 @@
-﻿namespace Trabajo_N_1
+﻿using System.Globalization;
+
+namespace Trabajo_N_1
 {
     internal class Program
     {
@@ -19,15 +21,16 @@
             double presupuestoMax = SolicitarDecimalValido("Presupuesto mensual límite de la PYME en USD (500.0 a 100000.0): ", 500.0, 100000.0);
 
             // Lógica de cálculo modular
-            double subtotalNeto = CalcularSubtotal(cantPaneles, tarifaPanel, costoInversor);
-            double montoDescuento = CalcularDescuentoFomento(subtotalNeto, dctoFomento);
-            double netoConDescuento = subtotalNeto - montoDescuento;
-            double montoIva = CalcularIvaChileno(netoConDescuento);
-            double totalCotizacion = netoConDescuento + montoIva;
+            /*  double subtotalNeto = CalcularSubtotal(cantPaneles, tarifaPanel, costoInversor);
+              double montoDescuento = CalcularDescuentoFomento(subtotalNeto, dctoFomento);
+              double netoConDescuento = subtotalNeto - montoDescuento;
+              double montoIva = CalcularIvaChileno(netoConDescuento);
+              double totalCotizacion = netoConDescuento + montoIva;*/
 
 
 
         }
+
         static void MostrarBannerInstitucional()
         {
             Console.WriteLine("===========================");
@@ -50,6 +53,42 @@
             return entrada;
         }
 
+        static int SolicitarEnteroValido(string prompt, int min, int max)
+        {
+            int paneles;
+            bool panelesValidos;
 
+            do
+            {
+                Console.Write(prompt);
+
+                panelesValidos = int.TryParse(Console.ReadLine(), out paneles);
+                if (!panelesValidos || paneles < min || paneles > max)
+                {
+                    Console.WriteLine("Ingrese un numero entero entre 1 y 200");
+                }
+            } while (!panelesValidos || paneles < min || paneles > max);
+
+            return paneles;
+        }
+        static double SolicitarDecimalValido(string prompt, double min, double max)
+        {
+            double tarifa;
+            bool tarifaValida;
+
+            do
+            {
+                Console.Write(prompt);
+                tarifaValida = double.TryParse(Console.ReadLine(), out tarifa);
+
+                if (!tarifaValida || tarifa < min || tarifa > max)
+                {
+                    Console.WriteLine($"Ingrese un numero decimal entre {min} y {max}");
+                }
+
+            } while (!tarifaValida || tarifa < min || tarifa > max);
+
+            return tarifa;
+        }
     }
 }
