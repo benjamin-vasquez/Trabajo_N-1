@@ -53,7 +53,7 @@ namespace Trabajo_N_1
             while (entrada == "")
             {
                 Console.Write(prompt);
-                entrada = Console.ReadLine()?.Trim() ?? "";
+                entrada = Console.ReadLine();
                 if (entrada == "")
                 {
                     Console.WriteLine("El campo no puede estar vacio.");
